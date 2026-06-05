@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>iAgency · Aloware vs Ringover Business — Loaded Cost Teardown</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400;12..96,600;12..96,800&family=Hanken+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --green:#165425; --dark:#0D2B1A; --accent:#2B7A40; --sage:#5B8A66;
+    --paper:#0a1c12; --line:rgba(255,255,255,.10); --line2:rgba(255,255,255,.06);
+    --hi:#7BE0A0; --warn:#E8B84B; --bad:#E5736B; --good:#7BE0A0;
+    --mono:'JetBrains Mono',monospace; --disp:'Bricolage Grotesque',sans-serif; --body:'Hanken Grotesk',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:var(--body);color:#dfeee4;background:var(--paper);
+    background-image:
+      radial-gradient(1200px 600px at 85% -10%, rgba(43,122,64,.28), transparent 60%),
+      radial-gradient(900px 500px at -5% 20%, rgba(22,84,37,.32), transparent 55%),
+      linear-gradient(180deg,#0a1c12 0%,#08160e 100%);
+    background-attachment:fixed;-webkit-font-smoothing:antialiased;line-height:1.5;padding-bottom:80px;}
+  body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.04;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");}
+  .wrap{max-width:1120px;margin:0 auto;padding:0 28px;position:relative;z-index:1}
+
+  header{padding:52px 0 26px}
+  .kick{font-family:var(--mono);font-size:12px;letter-spacing:.32em;text-transform:uppercase;color:var(--hi);opacity:.85}
+  h1{font-family:var(--disp);font-weight:800;font-size:clamp(32px,5vw,58px);line-height:.98;letter-spacing:-.02em;margin:10px 0 6px;color:#fff}
+  h1 .x{color:var(--sage);font-weight:400;font-size:.5em;vertical-align:middle;padding:0 .15em}
+  .sub{max-width:700px;color:#a9c4b3;font-size:16px}
+  .stamp{font-family:var(--mono);font-size:11px;color:#6f9079;margin-top:14px;letter-spacing:.05em}
+
+  .baseline{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line2);
+    border:1px solid var(--line);border-radius:14px;overflow:hidden;margin:26px 0 8px}
+  .baseline .c{background:rgba(13,43,26,.7);padding:18px 20px}
+  .baseline .l{font-family:var(--mono);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:#7fa389}
+  .baseline .v{font-family:var(--disp);font-weight:800;font-size:25px;color:#fff;margin-top:4px;letter-spacing:-.01em}
+  .baseline .v small{font-size:13px;color:var(--hi);font-weight:600;font-family:var(--body)}
+  @media(max-width:760px){.baseline{grid-template-columns:repeat(2,1fr)}}
+
+  section{margin-top:46px}
+  .hd{display:flex;align-items:baseline;gap:14px;margin-bottom:18px;border-bottom:1px solid var(--line);padding-bottom:10px}
+  .hd h2{font-family:var(--disp);font-weight:700;font-size:24px;color:#fff;letter-spacing:-.01em}
+  .hd .n{font-family:var(--mono);font-size:12px;color:var(--sage)}
+  .lead{color:#a9c4b3;max-width:780px;margin-bottom:8px}
+
+  .panel{background:rgba(8,22,14,.6);border:1px solid var(--line);border-radius:16px;padding:24px 26px;backdrop-filter:blur(6px)}
+  .ctrlrow{display:flex;flex-wrap:wrap;gap:26px;align-items:flex-end;justify-content:space-between}
+  .seatbox{flex:1;min-width:300px}
+  .seatlabel{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px}
+  .seatlabel .t{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#7fa389}
+  .seatlabel .num{font-family:var(--disp);font-weight:800;font-size:34px;color:var(--hi);line-height:1}
+  .seatlabel .num span{font-size:14px;color:#8fb39c;font-family:var(--body);font-weight:600}
+  input[type=range]{-webkit-appearance:none;width:100%;height:6px;border-radius:6px;
+    background:linear-gradient(90deg,var(--accent) 0%,var(--accent) var(--p,40%),rgba(255,255,255,.12) var(--p,40%));outline:none}
+  input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:22px;height:22px;border-radius:50%;
+    background:var(--hi);border:3px solid #0a1c12;cursor:pointer;box-shadow:0 0 0 4px rgba(123,224,160,.18)}
+  input[type=range]::-moz-range-thumb{width:22px;height:22px;border-radius:50%;background:var(--hi);border:3px solid #0a1c12;cursor:pointer}
+  .scen{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+  .chip{font-family:var(--mono);font-size:11.5px;letter-spacing:.04em;color:#cfe6d8;background:rgba(43,122,64,.16);
+    border:1px solid var(--line);padding:7px 11px;border-radius:8px;cursor:pointer;transition:.15s;white-space:nowrap}
+  .chip:hover{background:rgba(43,122,64,.34);border-color:var(--accent)}
+  .chip.on{background:var(--hi);color:#06140c;border-color:var(--hi);font-weight:700}
+  .toggles{display:flex;gap:22px;flex-wrap:wrap}
+  .tg{min-width:150px}
+  .tg .t{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#7fa389;margin-bottom:8px}
+  .seg{display:inline-flex;background:rgba(255,255,255,.05);border:1px solid var(--line);border-radius:9px;padding:3px}
+  .seg button{font-family:var(--body);font-weight:600;font-size:13px;color:#9bbfa9;background:none;border:none;
+    padding:8px 14px;border-radius:6px;cursor:pointer;transition:.15s}
+  .seg button.on{background:var(--green);color:#fff;box-shadow:0 1px 8px rgba(0,0,0,.3)}
+
+  .cards{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:22px}
+  @media(max-width:760px){.cards{grid-template-columns:1fr}}
+  .card{background:linear-gradient(180deg,rgba(20,52,32,.55),rgba(10,28,18,.7));border:1px solid var(--line);
+    border-radius:16px;padding:24px;position:relative;overflow:hidden;transition:.2s}
+  .card.inc{border-color:rgba(232,184,75,.45);background:linear-gradient(180deg,rgba(52,42,15,.4),rgba(10,28,18,.7))}
+  .card.win{border-color:rgba(123,224,160,.55);box-shadow:0 0 40px rgba(123,224,160,.08)}
+  .card .vname{font-family:var(--disp);font-weight:800;font-size:23px;color:#fff;display:flex;align-items:center;gap:10px}
+  .badge{font-family:var(--mono);font-size:9.5px;letter-spacing:.12em;padding:3px 7px;border-radius:5px;text-transform:uppercase}
+  .b-inc{background:rgba(232,184,75,.2);color:var(--warn);border:1px solid rgba(232,184,75,.4)}
+  .b-ch{background:rgba(123,224,160,.14);color:var(--hi);border:1px solid rgba(123,224,160,.3)}
+  .vtier{font-family:var(--mono);font-size:11px;color:#8fb39c;margin-top:3px}
+  .big{font-family:var(--disp);font-weight:800;font-size:48px;color:#fff;letter-spacing:-.02em;line-height:1;margin:16px 0 2px}
+  .big .cur{font-size:22px;color:var(--sage);vertical-align:super}
+  .permo{font-family:var(--mono);font-size:11px;color:#7fa389;letter-spacing:.08em}
+  .delta{font-family:var(--body);font-weight:700;font-size:13.5px;margin-top:10px}
+  .delta.save{color:var(--good)} .delta.cost{color:var(--bad)} .delta.base{color:#8fb39c}
+  .lines{margin-top:16px;padding-top:14px;border-top:1px solid var(--line2)}
+  .li{display:flex;justify-content:space-between;gap:10px;font-size:12.5px;padding:4px 0;color:#bcd9c8}
+  .li .d{color:#8fb39c;font-family:var(--mono);font-size:11px}
+  .li .a{font-family:var(--mono);color:#dfeee4;font-weight:500}
+  .li.tot{border-top:1px dashed var(--line);margin-top:6px;padding-top:8px;font-weight:700;color:#fff}
+  .li.tot .a{color:var(--hi)}
+  .cfoot{font-size:11.5px;color:#86a892;margin-top:12px;line-height:1.45;font-style:italic}
+  .yrline{font-family:var(--mono);font-size:12.5px;color:#9bbfa9;margin-top:16px;text-align:center;
+    background:rgba(255,255,255,.03);border:1px dashed var(--line);border-radius:10px;padding:13px}
+  .yrline b{color:var(--hi)}
+
+  table{width:100%;border-collapse:collapse;font-size:14px}
+  .mtable{background:rgba(8,22,14,.5);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .mtable th,.mtable td{padding:13px 16px;text-align:left;border-bottom:1px solid var(--line2)}
+  .mtable thead th{font-family:var(--disp);font-weight:700;font-size:15px;color:#fff;background:rgba(22,84,37,.35)}
+  .mtable thead th:first-child{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#9bbfa9;font-weight:400}
+  .mtable tbody tr:hover{background:rgba(43,122,64,.07)}
+  .mtable td:first-child{font-weight:600;color:#cfe6d8;width:34%}
+  .yes{color:var(--good);font-weight:700} .no{color:var(--bad);font-weight:700} .mid{color:var(--warn);font-weight:700}
+  .cell-sub{display:block;font-size:11.5px;color:#84a791;font-weight:400;margin-top:2px}
+  .scroll{overflow-x:auto}
+  @media(max-width:760px){.mtable{font-size:13px}.mtable th,.mtable td{padding:10px 11px}}
+
+  .ladders{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:760px){.ladders{grid-template-columns:1fr}}
+  .ladder{background:rgba(8,22,14,.5);border:1px solid var(--line);border-radius:14px;padding:18px 20px}
+  .ladder h3{font-family:var(--disp);font-weight:800;font-size:18px;color:#fff;margin-bottom:2px}
+  .ladder .who{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--sage);margin-bottom:14px}
+  .step{display:flex;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid var(--line2);font-size:13px}
+  .step:last-child{border-bottom:none}
+  .step .pn{color:#cfe6d8;font-weight:600}
+  .step .pn small{display:block;color:#84a791;font-weight:400;font-size:11px;margin-top:1px}
+  .step .pr{font-family:var(--mono);color:var(--hi);font-weight:700;white-space:nowrap;text-align:right}
+  .step .pr small{display:block;color:#7fa389;font-weight:400}
+  .step.mark{background:rgba(123,224,160,.08);margin:0 -20px;padding-left:20px;padding-right:20px;border-radius:6px}
+  .subh{font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#7fa389;margin:16px 0 6px}
+
+  .revs{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:760px){.revs{grid-template-columns:1fr}}
+  .rev{background:rgba(8,22,14,.5);border:1px solid var(--line);border-radius:14px;padding:20px}
+  .rev .rh{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+  .rev .rn{font-family:var(--disp);font-weight:800;font-size:18px;color:#fff}
+  .rev .score{font-family:var(--mono);font-weight:700;font-size:16px;color:var(--hi)}
+  .rev .score small{color:#7fa389;font-weight:400;font-size:11px}
+  .rev .seg-l{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:#7fa389;margin:12px 0 5px}
+  .rev ul{list-style:none;font-size:12.5px;color:#bcd9c8;line-height:1.5}
+  .rev li{padding-left:16px;position:relative;margin-bottom:5px}
+  .rev li.p::before{content:"\25B2";position:absolute;left:0;color:var(--good);font-size:8px;top:4px}
+  .rev li.n::before{content:"\25BC";position:absolute;left:0;color:var(--bad);font-size:8px;top:4px}
+
+  .verdict{background:linear-gradient(135deg,rgba(22,84,37,.5),rgba(8,22,14,.7));border:1px solid var(--accent);border-radius:18px;padding:30px 32px}
+  .verdict h2{font-family:var(--disp);font-weight:800;font-size:25px;color:#fff;margin-bottom:6px}
+  .verdict .tl{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--hi);margin-bottom:18px}
+  .vgrid{display:grid;grid-template-columns:1fr 1fr;gap:22px;margin-top:6px}
+  @media(max-width:760px){.vgrid{grid-template-columns:1fr}}
+  .vgrid h4{font-family:var(--disp);font-weight:700;font-size:15px;color:var(--hi);margin-bottom:8px}
+  .vgrid p,.vgrid li{font-size:13.5px;color:#cfe6d8;line-height:1.55}
+  .vgrid ul{list-style:none;margin-top:4px}
+  .vgrid li{padding-left:16px;position:relative;margin-bottom:7px}
+  .vgrid li::before{content:"\2192";position:absolute;left:0;color:var(--sage)}
+  .flag{margin-top:22px;font-size:12.5px;color:#e9d29a;background:rgba(232,184,75,.1);border:1px solid rgba(232,184,75,.3);border-radius:10px;padding:14px 16px;line-height:1.55}
+  .flag b{color:var(--warn)}
+  .fnote{font-size:11.5px;color:#6f9079;line-height:1.6;margin-top:18px;border-top:1px solid var(--line2);padding-top:14px}
+  .fnote b{color:#9bbfa9}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="kick">iAgency · Operations · Telephony Cost Teardown — REV 3 · ACTUALS</div>
+    <h1>Aloware <span class="x">vs</span> Ringover Business</h1>
+    <p class="sub">CloudTalk dropped. Benched head-to-head against Ringover's <b>Business</b> tier with every mandatory line, IVR number, compliance fee and metered cost loaded in — the way the bill actually lands, not the headline.</p>
+    <div class="stamp">RINGOVER TERMS LIVE FROM ringover.com/pricing · ALOWARE USAGE FROM YOUR DEC–25–JUN–26 INVOICES · USD</div>
+    <div class="baseline">
+      <div class="c"><div class="l">Incumbent</div><div class="v">Aloware <small>uPro+Ai</small></div></div>
+      <div class="c"><div class="l">Challenger</div><div class="v">Ringover <small>Business</small></div></div>
+      <div class="c"><div class="l">Scenarios</div><div class="v">5 &amp; 7 <small>seats</small></div></div>
+      <div class="c"><div class="l">Aloware now (4 seat)</div><div class="v">~$326<small>/mo all-in</small></div></div>
+    </div>
+  </header>
+
+  <!-- COST MODEL -->
+  <section id="model">
+    <div class="hd"><h2>The Loaded Money</h2><span class="n">/ 01 — itemized, mandatory costs in</span></div>
+    <p class="lead">Default is <b>7 seats</b> (your stated target); tap 5 to flip. Both stacks now carry <b>real usage</b>: Aloware’s is empirical (~$16/mo → ~$4/seat, from your invoices); Ringover’s is the same call/text volume priced at <i>their</i> metered rates (~$5/seat). <b>Lean</b> = Business + bundled AI + 1 number/user. <b>Parity</b> loads the two items you flagged: <b>Empower AI ($39/seat)</b> and a <b>per-user line ($6/seat)</b>. Watch the gap.</p>
+
+    <div class="panel">
+      <div class="ctrlrow">
+        <div class="seatbox">
+          <div class="seatlabel"><span class="t">Seat Count</span><span class="num" id="seatNum">7<span> seats</span></span></div>
+          <input type="range" id="seats" min="1" max="20" value="7">
+          <div class="scen">
+            <button class="chip" data-s="5">5 licenses</button>
+            <button class="chip on" data-s="7">7 licenses · target</button>
+          </div>
+        </div>
+        <div class="toggles">
+          <div class="tg"><div class="t">Config</div>
+            <div class="seg" id="cfg"><button class="on" data-c="lean">Lean</button><button data-c="par">Full parity</button></div></div>
+          <div class="tg"><div class="t">Billing</div>
+            <div class="seg" id="term"><button data-t="monthly">Monthly</button><button class="on" data-t="annual">Annual</button></div></div>
+        </div>
+      </div>
+      <div class="cards" id="cards"></div>
+      <div class="yrline" id="yrline"></div>
+    </div>
+  </section>
+
+  <!-- FEATURE MATRIX -->
+  <section id="features">
+    <div class="hd"><h2>Feature Parity — Business Tier</h2><span class="n">/ 02 — your must-haves vs the fine print</span></div>
+    <div class="scroll">
+    <table class="mtable">
+      <thead><tr><th>Capability</th><th>Aloware uPro+Ai (current)</th><th>Ringover BUSINESS</th></tr></thead>
+      <tbody>
+        <tr><td>Warm transfer</td><td class="yes">Yes</td><td class="yes">Yes</td></tr>
+        <tr><td>Hold / call queue (multi-caller)</td>
+          <td class="yes">Yes<span class="cell-sub">bundled</span></td>
+          <td class="mid">Yes — but Call Groups routing is an <b>add-on</b><span class="cell-sub">queues capped at 20 simultaneous on Business</span></td></tr>
+        <tr><td>Group / broadcast texting (SMS+MMS)</td>
+          <td class="yes">Unlimited &amp; free (local)<span class="cell-sub">2-way SMS/MMS, broadcast, sequences</span></td>
+          <td class="mid"><b>Metered</b><span class="cell-sub">per-SMS sent + $0.05/MMS; US/CA only</span></td></tr>
+        <tr><td>Included phone numbers</td>
+          <td class="mid">Pay per number<span class="cell-sub">$5/number/mo</span></td>
+          <td class="yes">1 per user included<span class="cell-sub">extra numbers ~$6/mo each, up to 20/user</span></td></tr>
+        <tr><td>Dedicated IVR / reception line</td>
+          <td class="yes">Included in flow</td>
+          <td class="mid">Separate number<span class="cell-sub">~$6/mo per line</span></td></tr>
+        <tr><td>REST API + webhooks + SDK</td>
+          <td class="yes">Yes — native, all plans</td>
+          <td class="yes">Yes — on Business<span class="cell-sub">API + SDK + webhooks; Talk tier limited</span></td></tr>
+        <tr><td>MCP / AI-agent hook (Bastion / Claude)</td>
+          <td class="yes">Native MCP in-app<span class="cell-sub">first-party</span></td>
+          <td class="mid">Via your Zapier MCP + native API<span class="cell-sub">no first-party server</span></td></tr>
+        <tr><td>AI transcription / summaries</td>
+          <td class="yes">Bundled<span class="cell-sub">AloAi analytics + Call Rescue</span></td>
+          <td class="mid">Basic bundled · deep AI = Empower<span class="cell-sub">Empower +$39/seat; AIRO voice agent $0.39/min</span></td></tr>
+        <tr><td>Power dialer</td><td class="yes">Yes (uPro)</td><td class="yes">Yes (Business)<span class="cell-sub">Parallel dialer = add-on</span></td></tr>
+        <tr><td>Coaching: whisper / barge / listen</td><td class="yes">Yes</td><td class="yes">Yes</td></tr>
+        <tr><td>CRM integration (Close, HubSpot)</td><td class="yes">Yes</td><td class="yes">100+ on Business</td></tr>
+        <tr><td>US texting compliance (10DLC)</td>
+          <td class="mid">$10/mo A2P maintenance</td>
+          <td class="mid">$4 brand + $15 campaign setup, then $1.50–$10/mo</td></tr>
+        <tr><td>Insurance-vertical fit</td>
+          <td class="mid">SMB sales/dialer focus</td>
+          <td class="yes">Strong<span class="cell-sub">ships a dedicated "VoIP for Insurance" build</span></td></tr>
+        <tr><td>Lock-in</td>
+          <td class="mid">5-seat floor; monthly or quarterly</td>
+          <td class="no">12-month commitment on Business</td></tr>
+      </tbody>
+    </table>
+    </div>
+    <p class="lead" style="margin-top:14px"><b style="color:#fff">Usage reality-check (now from your invoices):</b> Aloware burned just <b>one $100 usage top-up across ~6 months</b> (~$16/mo) — local calls/texts are free, so only light automation/AI is metered. The same volume on Ringover (free US calls, ~350 outbound SMS metered, light power-dialer at $0.08/min) lands at the <i>same</i> ~$16–20/mo. <b>Usage is a wash — it does not move the decision.</b> The call stays on fixed cost + features + lock-in.</p>
+  </section>
+
+  <!-- LADDERS -->
+  <section id="ladders">
+    <div class="hd"><h2>Ringover Business — True Cost Stack</h2><span class="n">/ 03 — base + the add-on menu (live list prices)</span></div>
+    <div class="ladders">
+      <div class="ladder">
+        <h3>Plan tiers</h3><div class="who">per user / month</div>
+        <div class="step"><div class="pn">TALK<small>web only · no advanced IVR / integrations</small></div><div class="pr">$24<small>$15 annual</small></div></div>
+        <div class="step mark"><div class="pn">BUSINESS<small>IVR, 100+ integrations, dialer, coaching</small></div><div class="pr">$57<small>$47 annual</small></div></div>
+        <div class="step"><div class="pn">ADVANCED<small>+ campaigns, voicemail drop, SSO, local presence</small></div><div class="pr">custom<small>~$64</small></div></div>
+        <div class="subh">Mandatory / near-mandatory</div>
+        <div class="step"><div class="pn">Extra number / line<small>1 incl. per user; more = this</small></div><div class="pr">~$6<small>each / mo</small></div></div>
+        <div class="step"><div class="pn">US Brand + Campaign reg<small>required for business SMS</small></div><div class="pr">$4 + $15<small>then $1.50–10/mo</small></div></div>
+        <div class="step"><div class="pn">MMS sent/received</div><div class="pr">$0.05<small>each</small></div></div>
+      </div>
+      <div class="ladder">
+        <h3>Add-on menu</h3><div class="who">where the bill grows</div>
+        <div class="step"><div class="pn">Empower — Conversational AI<small>to match Aloware AI depth</small></div><div class="pr">$39<small>/license/mo</small></div></div>
+        <div class="step"><div class="pn">Omnichannel messaging<small>IG / Messenger / WhatsApp / email</small></div><div class="pr">$29<small>/license/mo</small></div></div>
+        <div class="step"><div class="pn">Cadence — sales sequencing</div><div class="pr">$59<small>/user/mo</small></div></div>
+        <div class="step"><div class="pn">AIRO AI Voice Agent</div><div class="pr">$0.39<small>/min</small></div></div>
+        <div class="step"><div class="pn">Team Activity Analytics</div><div class="pr">$6<small>/license/mo</small></div></div>
+        <div class="step"><div class="pn">CRM Autofill</div><div class="pr">$5<small>/license/mo</small></div></div>
+        <div class="step"><div class="pn">Call Groups (queue routing)<small>flagged add-on on Business</small></div><div class="pr">on quote</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- REVIEWS -->
+  <section id="reviews">
+    <div class="hd"><h2>What The Street Says</h2><span class="n">/ 04 — G2 / Capterra signal</span></div>
+    <div class="revs">
+      <div class="rev">
+        <div class="rh"><div class="rn">Aloware</div><div class="score">~4.3<small> /5 · 822 rev</small></div></div>
+        <div class="seg-l">Tailwinds</div>
+        <ul><li class="p">All-in-one calls + unlimited texts + power dialer</li><li class="p">Tight CRM workflow; bundled AI; native MCP</li><li class="p">Predictable per-seat + free local texting</li></ul>
+        <div class="seg-l">Headwinds</div>
+        <ul><li class="n">Call quality is the #1 complaint across reviews</li><li class="n">Slow billing/support follow-up</li><li class="n">Metered AI/automated-usage burn beyond the seat fee</li></ul>
+      </div>
+      <div class="rev">
+        <div class="rh"><div class="rn">Ringover</div><div class="score">4.6<small> /5 · 462 rev</small></div></div>
+        <div class="seg-l">Tailwinds</div>
+        <ul><li class="p">Highest-rated; ease of setup + support quality</li><li class="p">Insurance is its #1 reviewer vertical</li><li class="p">1 number/user included; reliable voice</li></ul>
+        <div class="seg-l">Headwinds</div>
+        <ul><li class="n">Add-on creep: AI, Call Groups, omnichannel all à la carte</li><li class="n">Metered SMS/MMS + per-number fees</li><li class="n">12-month lock-in on Business</li></ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- VERDICT -->
+  <section id="verdict">
+    <div class="verdict">
+      <div class="tl">Bottom Line · Rev 3 · Actuals In · No Sugar</div>
+      <h2>Recommendation: stay on Aloware and use this quote as a renegotiation lever. Only switch if call quality is the real pain.</h2>
+      <div class="vgrid">
+        <div>
+          <h4>The firm gap (annual, usage in)</h4>
+          <ul>
+            <li><b>7 seats — Lean:</b> Ringover ~<b>$380/mo</b> vs Aloware ~<b>$490/mo</b> → saves ~<b>$110/mo (~$1.3K/yr)</b>. <b>Parity</b> flips it: Ringover ~<b>$695/mo</b>, <i>pricier</i> than Aloware.</li>
+            <li><b>5 seats — Lean:</b> Ringover ~<b>$276/mo</b> vs Aloware ~<b>$353/mo</b> → saves ~<b>$77/mo (~$920/yr)</b>. <b>Parity</b> ~<b>$501/mo</b>, pricier.</li>
+            <li><b>Usage is a wash:</b> ~$16–20/mo on both, confirmed from your invoices. It does not move the needle.</li>
+          </ul>
+        </div>
+        <div>
+          <h4>Why I'd hold</h4>
+          <ul>
+            <li>Best case is a <b>sub-$1.5K/yr</b> lean saving that <b>reverses at feature parity</b> — and only if you skip Empower and dodge per-user line fees.</li>
+            <li>Switching cost — number porting, <b>12-month lock-in</b>, retraining, rebuilding Close + Bastion + MCP, A2P re-registration, productivity dip — almost certainly <b>exceeds year-one savings</b>.</li>
+            <li>You'd lose <b>native MCP</b> and trade free unlimited texting for a metered model.</li>
+            <li><b>The one real trigger:</b> call quality. Ringover out-rates Aloware (4.6 vs 4.3) and quality is Aloware's #1 complaint. If your reps are hurting on call quality, that — not price — justifies a move.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="flag">&#9873; <b>The play:</b> Take the Ringover Business quote to your Aloware rep and push for a locked $70 rate, quarterly/annual discount, and bundled usage credits as you scale toward 7 seats — retention discounts here routinely beat a ~$1K/yr lean saving, with <b>zero</b> migration risk. If you want to validate call quality first, run Ringover's free 7-day Business trial (up to 5 users) head-to-head before any commitment. Send me your actual Ringover quote and I'll reconcile the per-user line / Call Groups line items and model the renegotiation target.</div>
+    </div>
+    <p class="fnote"><b>Sources &amp; method:</b> Ringover tiers, included-number terms, add-on prices, SMS/MMS metering and 10DLC fees pulled live from ringover.com/pricing (Jun 2026). Aloware baseline ($310/mo · 4 seats · $70/seat + $5/number×4 + $10 A2P) read from your Account&rarr;Billing screenshots; uPro+Ai $70/seat monthly confirmed via vendor + G2. <b>Usage:</b> Aloware modeled at ~$4/seat/mo, derived from your invoices (one $100 auto-recharge across Dec’25–Jun’26 ≈ $16/mo blended at 4 seats); Ringover modeled at ~$5/seat/mo (same call/text volume at their metered rates: free US calls, outbound SMS metered, $0.08/min call-automation surcharge). <b>Lean</b> = Aloware uPro+Ai vs Ringover Business + 1 IVR line ($6) + compliance ($10). <b>Parity</b> adds Empower AI ($39/seat) + per-user line ($6/seat). Annual = Aloware quarterly &minus;15% · Ringover $47. Excludes one-time setup (Ringover $4 brand + $15 campaign) and Call Groups add-on (on quote). Decision-support analysis, not a binding quote.</p>
+  </section>
+
+</div>
+
+<script>
+const MODEL = {
+  aloware:{ name:"Aloware", badge:"INCUMBENT", cls:"b-inc", card:"inc", tier:"uPro+Ai · Tier 2",
+    seat:{monthly:70,annual:59.5}, numPer:5, flatA2p:10, usageSeat:4,
+    foot:"AI bundled · local calls/texts free · usage = your actual invoices (~$16/mo blended)." },
+  ringover:{ name:"Ringover", badge:"BUSINESS", cls:"b-ch", card:"", tier:"Business tier",
+    seat:{monthly:57,annual:47}, ivr:6, comp:10, empower:39, userline:6, usageSeat:5,
+    foot:"basic AI bundled · same volume, metered (SMS + $0.08/min automation) · Call Groups = add-on." }
+};
+let seats=7, cfg="lean", term="annual";
+const $=s=>document.querySelector(s);
+const fmt=n=>"$"+(Math.round(n*100)/100).toLocaleString(undefined,{maximumFractionDigits:0});
+
+function aloware(){
+  const A=MODEL.aloware, seat=A.seat[term];
+  const lic=seats*seat, nums=seats*A.numPer, a2p=A.flatA2p, use=seats*A.usageSeat;
+  return {items:[
+    ["uPro+Ai license", seats+"\u00D7$"+seat, lic],
+    ["Local numbers", seats+"\u00D7$5", nums],
+    ["A2P maintenance", "flat", a2p],
+    ["Usage \u2014 actual", "~$"+A.usageSeat+"/seat", use]
+  ], total:lic+nums+a2p+use, foot:A.foot};
+}
+function ringover(){
+  const R=MODEL.ringover, seat=R.seat[term];
+  const emp = cfg==="par"? R.empower:0, ul = cfg==="par"? R.userline:0;
+  const lic=seats*seat, empT=seats*emp, ulT=seats*ul;
+  const items=[["Business license", seats+"\u00D7$"+seat, lic]];
+  if(emp) items.push(["Empower AI", seats+"\u00D7$39", empT]);
+  if(ul)  items.push(["Per-user line (your quote)", seats+"\u00D7$6", ulT]);
+  items.push(["IVR / reception line", "1\u00D7$6", R.ivr]);
+  items.push(["US campaign compliance", "flat", R.comp]);
+  items.push(["Usage \u2014 same volume, metered", "~$"+R.usageSeat+"/seat", seats*R.usageSeat]);
+  const total=lic+empT+ulT+R.ivr+R.comp+seats*R.usageSeat;
+  return {items, total, foot:cfg==="lean"?R.foot:"Empower AI + per-user lines loaded · usage metered."};
+}
+
+function render(){
+  const pct=((seats-1)/19)*100;
+  $("#seats").style.setProperty("--p",pct+"%");
+  $("#seatNum").innerHTML=seats+"<span> seat"+(seats>1?"s":"")+"</span>";
+
+  const A=aloware(), R=ringover();
+  const cheaper = R.total < A.total;
+  const data=[["aloware",A,false],["ringover",R,cheaper]];
+
+  $("#cards").innerHTML = data.map(([k,calc,win])=>{
+    const M=MODEL[k];
+    let delta,dcls;
+    if(k==="aloware"){ delta="Your benchmark"; dcls="base"; }
+    else{ const diff=A.total-R.total, p=Math.round(Math.abs(diff)/A.total*100);
+      if(diff>0){delta="\u25BC "+fmt(diff)+"/mo cheaper \u00B7 \u2212"+p+"%";dcls="save";}
+      else{delta="\u25B2 "+fmt(-diff)+"/mo pricier \u00B7 +"+p+"%";dcls="cost";} }
+    const lines=calc.items.map(([n,d,a])=>`<div class="li"><span>${n} <span class="d">${d}</span></span><span class="a">${fmt(a)}</span></div>`).join("");
+    return `<div class="card ${M.card}${win?' win':''}">
+      <div class="vname">${M.name}<span class="badge ${M.cls}">${M.badge}</span></div>
+      <div class="vtier">${M.tier}${cfg==="par"?" \u00B7 parity build":""}</div>
+      <div class="big"><span class="cur">$</span>${Math.round(calc.total).toLocaleString()}</div>
+      <div class="permo">PER MONTH \u00B7 ${term.toUpperCase()} \u00B7 ${cfg==="lean"?"LEAN":"FULL PARITY"} \u00B7 ${seats} SEATS</div>
+      <div class="delta ${dcls}">${delta}</div>
+      <div class="lines">${lines}<div class="li tot"><span>All-in monthly</span><span class="a">${fmt(calc.total)}</span></div></div>
+      <div class="cfoot">${calc.foot}</div>
+    </div>`;
+  }).join("");
+
+  const ay=A.total*12, ry=R.total*12, save=ay-ry;
+  $("#yrline").innerHTML = save>0
+    ? `Annualized at <b>${seats} seats</b> (${cfg==="lean"?"lean":"parity"}, ${term}): Aloware <b>${fmt(ay)}/yr</b> \u2192 Ringover Business <b>${fmt(ry)}/yr</b> \u00B7 switching frees <b>${fmt(save)}/year</b>.`
+    : `Annualized at <b>${seats} seats</b> (${cfg}, ${term}): Ringover Business runs <b>${fmt(-save)}/yr ABOVE</b> Aloware \u2014 at full parity the challenger is the pricier option.`;
+}
+
+$("#seats").addEventListener("input",e=>{seats=+e.target.value;
+  document.querySelectorAll(".chip").forEach(c=>c.classList.toggle("on",+c.dataset.s===seats));render();});
+document.querySelectorAll(".chip").forEach(c=>c.addEventListener("click",()=>{
+  seats=+c.dataset.s;$("#seats").value=seats;
+  document.querySelectorAll(".chip").forEach(x=>x.classList.remove("on"));c.classList.add("on");render();}));
+$("#cfg").querySelectorAll("button").forEach(b=>b.addEventListener("click",()=>{
+  cfg=b.dataset.c;$("#cfg").querySelectorAll("button").forEach(x=>x.classList.toggle("on",x===b));render();}));
+$("#term").querySelectorAll("button").forEach(b=>b.addEventListener("click",()=>{
+  term=b.dataset.t;$("#term").querySelectorAll("button").forEach(x=>x.classList.toggle("on",x===b));render();}));
+render();
+</script>
+</body>
+</html>
